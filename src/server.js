@@ -1,28 +1,32 @@
 import express from 'express';
 import cors from 'cors';
-// import pino from 'pino-http';
+import pino from 'pino-http';
 import cookieParser from 'cookie-parser';
-import allRouters from './routers/index.js';
-import { env } from './utils/env.js';
+// import allRouters from './routers/index.js';
+// import { env } from './utils/env.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import router from './routers/index.js';
 
-const PORT = Number(env('PORT', '3000'));
+// const PORT = Number(env('PORT', '3000'));
 
 const app = express();
 
 app.use(cors());
 
 app.use(cookieParser());
+app.use(router);
 
-//   app.use(
-//     pino({
-//       transport: {
-//         target: 'pino-pretty',
-//       },
-//     }),
-//   );
-// закоментовано для розробки
+app.use(
+  pino({
+    transport: {
+      target: 'pino-pretty',
+    },
+    options: {
+      colorize: true,
+    },
+  }),
+);
 
 app.get('/', (req, res) => {
   res.json({
@@ -30,7 +34,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use(allRouters);
+// app.use(allRouters);
 
 app.use('*', notFoundHandler);
 
