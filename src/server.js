@@ -9,35 +9,42 @@ import { errorHandler } from './middlewares/errorHandler.js';
 
 const PORT = Number(env('PORT', '3000'));
 
-export const setupServer = () => {
-  const app = express();
+const app = express();
 
-  app.use(cors());
+app.use(cors());
 
-  app.use(cookieParser());
+app.use(cookieParser());
 
-  //   app.use(
-  //     pino({
-  //       transport: {
-  //         target: 'pino-pretty',
-  //       },
-  //     }),
-  //   );
-  // закоментовано для розробки
+//   app.use(
+//     pino({
+//       transport: {
+//         target: 'pino-pretty',
+//       },
+//     }),
+//   );
+// закоментовано для розробки
 
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Start page!',
-    });
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Start page!',
   });
+});
 
-  app.use(allRouters);
+app.use(allRouters);
 
-  app.use('*', notFoundHandler);
+app.use('*', notFoundHandler);
 
-  app.use(errorHandler);
+app.use(errorHandler);
 
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+const setupServer = () => {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 };
+
+export default setupServer;
