@@ -26,4 +26,4 @@ const usersSchema = new Schema(
   },
   { versionKey: false, timestamps: true },
 );
-export const NearestStore = model('User', usersSchema, 'users');
+export const Users = model('User', usersSchema, 'users');
