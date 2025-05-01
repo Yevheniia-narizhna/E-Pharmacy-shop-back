@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get('/');
 
-router.get('/:id');
+router.put('/update');
+
+router.post('/checkout');
 
 export default router;
