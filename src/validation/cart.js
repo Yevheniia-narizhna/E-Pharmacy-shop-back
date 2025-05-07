@@ -22,13 +22,3 @@ export const cartCheckSchema = Joi.object({
   address: Joi.string().required(),
   payment: Joi.string().valid('cash', 'bank').required(),
 });
-
-export const addToCartSchema = Joi.object({
-  productId: Joi.string().required(),
-  quantity: Joi.number().integer().required(),
-});
-
-export const quantitySchema = Joi.object({
-  productId: Joi.string().required(),
-  quantity: Joi.number().integer().required(),
-});

@@ -8,7 +8,6 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/index.js';
 
-// const PORT = Number(env('PORT', '3000'));
 
 const app = express();
 
@@ -34,15 +33,11 @@ app.get('/', (req, res) => {
   });
 });
 
-// app.use(allRouters);
 
 app.use('*', notFoundHandler);
 
 app.use(errorHandler);
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
 
 const setupServer = () => {
   const PORT = process.env.PORT || 3000;
