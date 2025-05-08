@@ -13,4 +13,4 @@ const reviewsSchema = new Schema(
   },
   { versionKey: false, timestamps: true },
 );
-export const Reviews = model('reviews', reviewsSchema);
+export const Review = model('reviews', reviewsSchema);
