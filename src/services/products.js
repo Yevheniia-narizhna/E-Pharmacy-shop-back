@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { Product } from '../models/products';
+import { Product } from '../models/products.js';
 
 export const getAllProducts = async ({
   category,

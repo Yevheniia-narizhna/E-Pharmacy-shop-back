@@ -1,6 +1,6 @@
-import { User } from '../models/users';
-import { Cart } from '../models/cart';
-import { Product } from '../models/products';
+import { User } from '../models/users.js';
+import { Cart } from '../models/cart.js';
+import { Product } from '../models/products.js';
 import createHttpError from 'http-errors';
 
 export const getCartItems = async (userId) => {
@@ -81,4 +81,93 @@ export const cartCheckout = async (userId, data) => {
   );
 
   return result;
+};
+
+export const addToCart = async (userId, productId, quantity) => {
+  if (!userId) throw createHttpError(400, 'User id is required');
+
+  let cart = await Cart.findOne({ userId });
+
+  if (!cart) {
+    cart = new Cart({
+      userId,
+      products: [{ productId, quantity }],
+    });
+  } else {
+    const existingProduct = cart.products.find(
+      (product) => product.productId.toString() === productId,
+    );
+
+    if (existingProduct) {
+      existingProduct.quantity += quantity;
+    } else {
+      cart.products.push({ productId, quantity });
+    }
+  }
+
+  await cart.save();
+  return cart;
+};
+
+export const decreaseQuantity = async (userId, productId, quantity) => {
+  if (!userId) throw createHttpError(400, 'User id is required');
+
+  let cart = await Cart.findOne({ userId });
+
+  if (!cart) {
+    cart = new Cart({
+      userId,
+      products: [{ productId, quantity }],
+    });
+  } else {
+    const existingProduct = cart.products.find(
+      (product) => product.productId.toString() === productId,
+    );
+
+    if (!existingProduct) {
+      throw createHttpError(404, 'Product not found in cart');
+    }
+
+    if (existingProduct.quantity === 1) {
+      cart.products = cart.products.filter(
+        (product) => product.productId.toString() !== productId,
+      );
+    } else {
+      existingProduct.quantity -= 1;
+    }
+  }
+
+  await cart.save();
+  return cart;
+};
+
+export const removeFromCart = async (userId, productId) => {
+  if (!userId) {
+    throw createHttpError(400, 'User id is required');
+  }
+
+  if (!productId) {
+    throw createHttpError(400, 'Product id is required');
+  }
+
+  const cart = await Cart.findOne({ userId });
+  if (!cart) {
+    throw createHttpError(404, 'Cart not found');
+  }
+
+  const found = cart.products.find(
+    (item) => item.productId.toString() === productId,
+  );
+
+  if (!found) {
+    throw createHttpError(404, 'There is no product with this id in the cart');
+  }
+
+  const updatedCart = await Cart.findOneAndUpdate(
+    { userId },
+    { $pull: { products: { productId } } },
+    { new: true },
+  );
+
+  return updatedCart;
 };

@@ -6,7 +6,7 @@ import {
   login,
   logout,
   register,
-} from '../services/auth';
+} from '../services/auth.js';
 
 export const registerContr = async (req, res, next) => {
   try {

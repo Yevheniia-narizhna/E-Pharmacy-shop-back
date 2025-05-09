@@ -1,9 +1,9 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { Review } from '../models/reviews';
-import { NearestStore, Store } from '../models/storesNearest';
-import { User } from '../models/users';
+import { Review } from '../models/reviews.js';
+import { NearestStore, Store } from '../models/storesNearest.js';
+import { User } from '../models/users.js';
 
 
 const { SECRET_KEY } = process.env;
