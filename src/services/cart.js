@@ -129,11 +129,21 @@ export const decreaseQuantity = async (userId, productId, quantity) => {
     }
 
     if (existingProduct.quantity === 1) {
-      cart.products = cart.products.filter(
-        (product) => product.productId.toString() !== productId,
+      // cart.products = cart.products.filter(
+      //   (product) => product.productId.toString() !== productId,
+      // );
+      cart = await Cart.findOneAndUpdate(
+        { userId },
+        { $pull: { products: { productId } } },
+        { new: true },
       );
     } else {
-      existingProduct.quantity -= 1;
+      // existingProduct.quantity -= 1;
+      await Cart.updateOne(
+        { userId, 'products.productId': productId },
+        { $inc: { 'products.$.quantity': -quantity } },
+      );
+      cart = await Cart.findOne({ userId });
     }
   }
 
