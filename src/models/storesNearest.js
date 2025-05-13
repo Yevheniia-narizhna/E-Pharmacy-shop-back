@@ -26,6 +26,10 @@ const storesNearestSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
-export const NearestStore = model('pharmacies', storesNearestSchema);
+export const NearestStore = model(
+  'NearestStore',
+  storesNearestSchema,
+  'pharmacies',
+);
 
-export const Store = model('pharma', storesNearestSchema);
+export const Store = model('Store', storesNearestSchema, 'pharma');

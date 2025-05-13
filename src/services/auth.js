@@ -5,7 +5,6 @@ import { Review } from '../models/reviews.js';
 import { NearestStore, Store } from '../models/storesNearest.js';
 import { User } from '../models/users.js';
 
-
 const { SECRET_KEY } = process.env;
 
 export const register = async ({ name, email, phone, password }) => {

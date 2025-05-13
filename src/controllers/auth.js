@@ -46,7 +46,7 @@ export const getUserInfoContr = async (req, res, next) => {
 
 export const getAllStoresContr = async (req, res, next) => {
   try {
-    const limit = req.body.limit || 9;
+    const limit = Number(req.query.limit) || 9;
     const result = await getAllStores(limit);
     res.json(result);
   } catch (err) {
@@ -56,7 +56,7 @@ export const getAllStoresContr = async (req, res, next) => {
 
 export const getNearestStoresContr = async (req, res, next) => {
   try {
-    const limit = req.body.limit || 6;
+    const limit = Number(req.query.limit) || 6;
     const result = await getNearestStores(limit);
     res.json(result);
   } catch (err) {
@@ -66,7 +66,7 @@ export const getNearestStoresContr = async (req, res, next) => {
 
 export const getCustomerReviewsContr = async (req, res, next) => {
   try {
-    const limit = req.query.limit || 3;
+    const limit = Number(req.query.limit) || 3;
     const result = await getCustomerReviews(limit);
     res.json(result);
   } catch (err) {
