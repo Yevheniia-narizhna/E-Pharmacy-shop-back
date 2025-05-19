@@ -12,6 +12,7 @@ import {
   logoutContr,
   registerContr,
 } from '../controllers/auth.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const jsonParser = express.json();
 
@@ -31,7 +32,7 @@ router.post(
   ctrlWrapper(loginContr),
 );
 
-router.get('/user/logout', ctrlWrapper(logoutContr));
+router.get('/user/logout', authenticate, ctrlWrapper(logoutContr));
 
 router.get('/user/user-info', ctrlWrapper(getUserInfoContr));
 
