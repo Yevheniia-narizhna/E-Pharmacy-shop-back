@@ -34,7 +34,7 @@ router.post(
 
 router.get('/user/logout', authenticate, ctrlWrapper(logoutContr));
 
-router.get('/user/user-info', ctrlWrapper(getUserInfoContr));
+router.get('/user/user-info', authenticate, ctrlWrapper(getUserInfoContr));
 
 router.get('/stores/nearest', ctrlWrapper(getNearestStoresContr));
 
