@@ -2,7 +2,12 @@ import express from 'express';
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { cartCheckSchema, updateCartSchema } from '../validation/cart.js';
+import {
+  addToCartSchema,
+  cartCheckSchema,
+  decreaseQuantitySchema,
+  updateCartSchema,
+} from '../validation/cart.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import {
   addToCartContr,
@@ -33,8 +38,18 @@ router.post(
   ctrlWrapper(cartCheckoutContr),
 );
 
-router.patch('/add', ctrlWrapper(addToCartContr));
-router.patch('/decrease', ctrlWrapper(decreaseQuantityContr));
+router.patch(
+  '/add',
+  jsonParser,
+  validateBody(addToCartSchema),
+  ctrlWrapper(addToCartContr),
+);
+router.patch(
+  '/decrease',
+  jsonParser,
+  validateBody(decreaseQuantitySchema),
+  ctrlWrapper(decreaseQuantityContr),
+);
 
 router.delete('/remove/:productId', ctrlWrapper(removeFromCartContr));
 
