@@ -8,10 +8,14 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/index.js';
 
-
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://med-store-client.vercel.app',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(router);
@@ -33,11 +37,9 @@ app.get('/', (req, res) => {
   });
 });
 
-
 app.use('*', notFoundHandler);
 
 app.use(errorHandler);
-
 
 const setupServer = () => {
   const PORT = process.env.PORT || 3000;
