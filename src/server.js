@@ -11,7 +11,7 @@ import router from './routers/index.js';
 const app = express();
 
 const corsOptions = {
-  origin: 'https://med-store-client.vercel.app',
+  origin: ['https://med-store-client.vercel.app', 'http://localhost:5173'],
   credentials: true,
 };
 
