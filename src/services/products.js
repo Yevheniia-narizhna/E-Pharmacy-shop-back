@@ -1,6 +1,17 @@
 import createHttpError from 'http-errors';
 import { Product } from '../models/products.js';
 
+const DEFAULT_PHOTO =
+  'https://www.agrolet.com.ua/wp-content/uploads/2023/01/404_agrolet_ukraine-2048x1365.jpg';
+
+function isValidUrl(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
 export const getAllProducts = async ({
   category,
   name,
@@ -24,7 +35,19 @@ export const getAllProducts = async ({
     throw createHttpError(404, 'Not found');
   }
 
-  return { currentPage: Number(page), totalPages, totalProducts, products };
+  const validatedProducts = products.map((product) => {
+    if (!product.photo || !isValidUrl(product.photo)) {
+      product.photo = DEFAULT_PHOTO;
+    }
+    return product;
+  });
+
+  return {
+    currentPage: Number(page),
+    totalPages,
+    totalProducts,
+    products: validatedProducts,
+  };
 };
 
 export const getProductById = async (id) => {
