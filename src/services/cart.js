@@ -76,7 +76,7 @@ export const cartCheckout = async (userId, data) => {
 
   const result = await Cart.findOneAndUpdate(
     { userId },
-    { name, email, phone, address, payment, isOrdered: true },
+    { name, email, phone, address, payment, isOrdered: true, products: [] },
     { new: true },
   );
 
